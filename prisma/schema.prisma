@@ -1,0 +1,174 @@
+// ============================================================
+// prisma/schema.prisma   ←   MongoDB — البيت الذهبي
+// ============================================================
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ══════════════════════════════════════════════════════════════
+// Table  ←  collection: tables
+// ══════════════════════════════════════════════════════════════
+model Table {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  number    Int      @unique
+  capacity  Int      @default(4)
+  status    String   @default("FREE")
+  section   String?  // A, B, C, D
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders    Order[]
+  calls     Call[]
+  bills     Bill[]
+  reviews   Review[]
+
+  @@map("tables")
+}
+
+// ══════════════════════════════════════════════════════════════
+// MenuItem  ←  collection: menu_items
+// ══════════════════════════════════════════════════════════════
+model MenuItem {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  price       Float
+  emoji       String   @default("🍽️")
+  category    String
+  badge       String?
+  isAvailable Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  orderItems  OrderItem[]
+  billItems   BillItem[]
+
+  @@map("menu_items")
+}
+
+// ══════════════════════════════════════════════════════════════
+// Order  ←  collection: orders
+// ══════════════════════════════════════════════════════════════
+model Order {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  tableId     String      @db.ObjectId
+  table       Table       @relation(fields: [tableId], references: [id])
+  status      String      @default("PENDING")
+  totalAmount Float       @default(0)
+  notes       String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  items       OrderItem[]
+  bill        Bill?
+
+  @@map("orders")
+}
+
+// ══════════════════════════════════════════════════════════════
+// OrderItem  ←  collection: order_items
+// ══════════════════════════════════════════════════════════════
+model OrderItem {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  orderId    String   @db.ObjectId
+  order      Order    @relation(fields: [orderId], references: [id])
+  menuItemId String   @db.ObjectId
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  quantity   Int      @default(1)
+  unitPrice  Float
+
+  @@map("order_items")
+}
+
+// ══════════════════════════════════════════════════════════════
+// Call  ←  collection: calls
+// ══════════════════════════════════════════════════════════════
+model Call {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  tableId   String   @db.ObjectId
+  table     Table    @relation(fields: [tableId], references: [id])
+  type      String   @default("NORMAL")
+  status    String   @default("PENDING")
+  message   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("calls")
+}
+
+// ══════════════════════════════════════════════════════════════
+// Bill  ←  collection: bills
+// ══════════════════════════════════════════════════════════════
+model Bill {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  tableId       String    @db.ObjectId
+  table         Table     @relation(fields: [tableId], references: [id])
+  orderId       String?   @unique @db.ObjectId
+  order         Order?    @relation(fields: [orderId], references: [id])
+  subtotal      Float
+  vatAmount     Float
+  totalAmount   Float
+  paymentMethod String    @default("CASH")
+  status        String    @default("PENDING")
+  paidAt        DateTime?
+  createdAt     DateTime  @default(now())
+
+  items         BillItem[]
+
+  @@map("bills")
+}
+
+// ══════════════════════════════════════════════════════════════
+// BillItem  ←  collection: bill_items
+// ══════════════════════════════════════════════════════════════
+model BillItem {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  billId     String   @db.ObjectId
+  bill       Bill     @relation(fields: [billId], references: [id])
+  menuItemId String   @db.ObjectId
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  quantity   Int
+  unitPrice  Float
+  lineTotal  Float
+
+  @@map("bill_items")
+}
+
+// ══════════════════════════════════════════════════════════════
+// Review  ←  collection: reviews
+// ══════════════════════════════════════════════════════════════
+model Review {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  tableId       String   @db.ObjectId
+  table         Table    @relation(fields: [tableId], references: [id])
+  overallRating Int
+  foodRating    Int?
+  serviceRating Int?
+  speedRating   Int?
+  cleanRating   Int?
+  comment       String?
+  createdAt     DateTime @default(now())
+
+  @@map("reviews")
+}
+
+// ══════════════════════════════════════════════════════════════
+// Waiter  ←  collection: waiters (جديد)
+// ══════════════════════════════════════════════════════════════
+model Waiter {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  section   String   // A, B, C, D
+  status    String   @default("ACTIVE") // ACTIVE, BREAK, OFF
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("waiters")
+}

@@ -1,0 +1,22 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/admin/orders/route": "app/api/admin/orders/route.js",
+  "/api/bills/route": "app/api/bills/route.js",
+  "/api/admin/tables/route": "app/api/admin/tables/route.js",
+  "/api/calls/[id]/route": "app/api/calls/[id]/route.js",
+  "/api/calls/route": "app/api/calls/route.js",
+  "/api/menu/route": "app/api/menu/route.js",
+  "/api/admin/dashboard/route": "app/api/admin/dashboard/route.js",
+  "/api/orders/[id]/route": "app/api/orders/[id]/route.js",
+  "/api/orders/route": "app/api/orders/route.js",
+  "/api/reviews/route": "app/api/reviews/route.js",
+  "/api/staff/route": "app/api/staff/route.js",
+  "/head-waiter/page": "app/head-waiter/page.js",
+  "/bill/page": "app/bill/page.js",
+  "/feedback/page": "app/feedback/page.js",
+  "/manager/page": "app/manager/page.js",
+  "/menu/page": "app/menu/page.js",
+  "/page": "app/page.js",
+  "/waiter/page": "app/waiter/page.js",
+  "/staff/page": "app/staff/page.js"
+}

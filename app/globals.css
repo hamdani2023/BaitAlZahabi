@@ -1,0 +1,333 @@
+/* ============================================================
+   globals.css — Bait Al Zahabi Fine Dining
+   ============================================================
+   1. Tailwind
+   2. Fonts
+   3. CSS Variables (Design Tokens)
+   4. Reset & Base
+   5. Background & Body
+   6. Scrollable Layout
+   7. Typography Utilities
+   8. Dividers & Ornaments
+   9. Hero Overlay
+  10. Cards
+  11. Buttons
+  12. Inputs
+  13. Category Tabs (Menu)
+  14. Status Badges
+  15. Page Transitions
+  16. Keyframe Animations
+   ============================================================ */
+
+
+/* ──────────────────────────────────────────────────────────
+   1. TAILWIND
+   ────────────────────────────────────────────────────────── */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* ──────────────────────────────────────────────────────────
+   2. FONTS
+   ────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap');
+
+
+/* ──────────────────────────────────────────────────────────
+   3. CSS VARIABLES — Design Tokens
+   ────────────────────────────────────────────────────────── */
+:root {
+  /* Gold palette */
+  --gold:        #C9A84C;
+  --gold-light:  #E8C870;
+  --gold-dark:   #8B6914;
+  --gold-pale:   #F5E6B8;
+
+  /* Dark palette */
+  --dark:        #0A0805;
+  --dark-2:      #120E09;
+  --dark-3:      #1C1610;
+  --dark-4:      #252016;
+  --dark-5:      #2E2819;
+
+  /* Text */
+  --cream:       #F5EDD6;
+  --cream-2:     #EDE0C0;
+
+  /* Semantic */
+  --red-warm:    #C0392B;
+  --green-herb:  #2D5A27;
+
+  /* Layout */
+  --nav-h:       72px;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   4. RESET & BASE
+   ────────────────────────────────────────────────────────── */
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   5. BACKGROUND & BODY
+   ────────────────────────────────────────────────────────── */
+html {
+  min-height: 100%;
+  background: var(--dark);
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 40% at 50%  0%,   rgba(201,168,76,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 30% at 80% 50%,   rgba(201,168,76,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 35% at 10% 100%,  rgba(201,168,76,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 20% at 10%  60%,  rgba(201,168,76,0.03) 0%, transparent 40%),
+    linear-gradient(180deg,
+      #0A0805 0%,
+      #0E0A06 15%,
+      #0C0907 35%,
+      #0A0805 55%,
+      #080604 75%,
+      #060503 90%,
+      #050402 100%
+    );
+  background-attachment: fixed;
+  background-size: cover;
+  color: var(--cream);
+  font-family: 'Tajawal', sans-serif;
+  direction: rtl;
+  overflow: hidden;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   6. SCROLLABLE LAYOUT
+   ────────────────────────────────────────────────────────── */
+.scrollable {
+  height: calc(100vh - var(--nav-h));
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201,168,76,0.3) transparent;
+  background: transparent;
+  position: relative;
+}
+
+/* طبقة الإضاءة المتدرجة من فوق */
+.scrollable::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 200px;
+  background: radial-gradient(ellipse 100% 100% at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 80%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.scrollable::-webkit-scrollbar       { width: 3px; }
+.scrollable::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
+
+
+/* ──────────────────────────────────────────────────────────
+   7. TYPOGRAPHY UTILITIES
+   ────────────────────────────────────────────────────────── */
+.font-playfair { font-family: 'Playfair Display', serif; }
+.font-cairo    { font-family: 'Cairo', sans-serif; }
+.font-tajawal  { font-family: 'Tajawal', sans-serif; }
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, var(--gold-pale), var(--gold-light), var(--gold), var(--gold-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.price-luxury {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 800;
+  color: var(--gold-light);
+  letter-spacing: 0.3px;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   8. DIVIDERS & ORNAMENTS
+   ────────────────────────────────────────────────────────── */
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+  position: relative;
+}
+.gold-divider::before {
+  content: '✦';
+  position: absolute;
+  left: 50%; top: -8px;
+  transform: translateX(-50%);
+  color: var(--gold);
+  font-size: 14px;
+}
+
+.ornament-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.ornament-line::before {
+  content: '';
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, rgba(201,168,76,0.4), transparent);
+}
+.ornament-line::after {
+  content: '';
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4));
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   9. HERO OVERLAY
+   ────────────────────────────────────────────────────────── */
+.hero-bg-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(10,8,5,0.40)  0%,
+    rgba(10,8,5,0.20) 30%,
+    rgba(10,8,5,0.60) 75%,
+    rgba(10,8,5,0.95) 100%
+  );
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   10. CARDS
+   ────────────────────────────────────────────────────────── */
+.luxury-card {
+  background: linear-gradient(135deg, var(--dark-3), var(--dark-2));
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 16px;
+  transition: all 0.25s ease;
+}
+.luxury-card:hover,
+.luxury-card:active {
+  border-color: rgba(201,168,76,0.35);
+  box-shadow: 0 4px 20px rgba(201,168,76,0.10);
+  transform: translateY(-1px);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   11. BUTTONS
+   ────────────────────────────────────────────────────────── */
+.btn-gold-luxury {
+  background: linear-gradient(135deg, #C9A84C, #8B6914, #C9A84C);
+  background-size: 200% 100%;
+  border: none;
+  color: #0A0805;
+  font-weight: 800;
+  font-family: 'Cairo', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+.btn-gold-luxury:hover  { background-position: right center; box-shadow: 0 6px 24px rgba(201,168,76,0.35); }
+.btn-gold-luxury:active { transform: scale(0.98); }
+
+
+/* ──────────────────────────────────────────────────────────
+   12. INPUTS
+   ────────────────────────────────────────────────────────── */
+.input-luxury {
+  background: rgba(28,22,16,0.8);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 12px;
+  color: var(--cream);
+  font-family: 'Tajawal', sans-serif;
+  transition: border-color 0.2s;
+  outline: none;
+  display: block;
+}
+.input-luxury:focus       { border-color: rgba(201,168,76,0.5); box-shadow: 0 0 0 3px rgba(201,168,76,0.06); }
+.input-luxury::placeholder { color: rgba(245,237,214,0.25); }
+
+
+/* ──────────────────────────────────────────────────────────
+   13. CATEGORY TABS — Menu page
+   ────────────────────────────────────────────────────────── */
+.cat-tab {
+  white-space: nowrap;
+  padding: 7px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(201,168,76,0.15);
+  background: rgba(28,22,16,0.8);
+  color: rgba(245,237,214,0.55);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Cairo', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.cat-tab.active {
+  background: linear-gradient(135deg, rgba(201,168,76,0.2), rgba(201,168,76,0.08));
+  border-color: rgba(201,168,76,0.4);
+  color: var(--gold);
+  font-weight: 700;
+}
+.cat-tab:hover { border-color: rgba(201,168,76,0.25); color: rgba(245,237,214,0.8); }
+
+
+/* ──────────────────────────────────────────────────────────
+   14. STATUS BADGES — Staff / Waiter pages
+   ────────────────────────────────────────────────────────── */
+.badge-active  { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); color: #10B981; }
+.badge-break   { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: #F59E0B; }
+.badge-offline { background: rgba(107,114,128,0.12);border: 1px solid rgba(107,114,128,0.3);color: #6B7280; }
+
+
+/* ──────────────────────────────────────────────────────────
+   15. PAGE TRANSITIONS
+   ────────────────────────────────────────────────────────── */
+.page-in {
+  animation: pageIn 0.35s ease-out;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   16. KEYFRAME ANIMATIONS
+   ────────────────────────────────────────────────────────── */
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0);    }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes glow-gold {
+  0%, 100% { box-shadow: 0 0 30px rgba(201,168,76,0.15); }
+  50%       { box-shadow: 0 0 50px rgba(201,168,76,0.35), 0 0 80px rgba(201,168,76,0.1); }
+}
+
+@keyframes pulse-gold {
+  0%, 100% { opacity: 1;   }
+  50%       { opacity: 0.5; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
